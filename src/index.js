@@ -2,22 +2,35 @@ import * as R from "ramda";
 import PouchDB from "pouchdb";
 // import Rx from "rxjs/Rx";
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", async function () {
 
     console.log("rxdb starting...");
 
     document.getElementById("app").innerText = "rx-db";
 
-    const db = new PouchDB("rx-db");
+    const db = new PouchDB("rx-db");    // synchronous
 
     console.log(R.isNil(db.then));          //-> false
     console.log(R.is(Function, db.then));   //-> true
 
+    /*
+    async function getDbInfos() {
+        try {
+            return db.info();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    */
+
+    console.log(await db.info());   // db.info() is asynchronous
+
+    /*
     async function getDbInfos() {
         return await db.info();
     }
-
     console.log(getDbInfos());
+    */
 
     /*
     db.info().then(function(infos) {
@@ -48,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             () => console.log(‘Database populated!’)
         );
     */
-
 
 
 });
